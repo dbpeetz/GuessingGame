@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GuessingGameChallenge.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,6 +15,17 @@ namespace GuessingGameChallenge.Controllers
         public ActionResult Index()
         {
             Session["Answer"] = new Random().Next(1, 10);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(GameModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ViewBag.Win = GuessWasCorrect(model.Guess);
+            }
             return View();
         }
     }
